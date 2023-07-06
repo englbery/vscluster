@@ -57,4 +57,4 @@ vappProperty:
   - guestinfo.dns.servers=${dns:VL-115}
   - guestinfo.interface.1.ip.0.address=ip:VL-899
 vappTransport: com.vmware.guestInfo
-vcenterPort: 443
+vcenterPort: "443"
