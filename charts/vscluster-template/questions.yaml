@@ -1,0 +1,12 @@
+questions:
+  - variable: cluster.name
+    description: "Specify name"
+    label: "Cluster Name"
+    required: true
+    type: string
+    group: "General"
+  - variable: cloudCredentialSecretName
+    description: "CCSN"
+    label: "CloudCredential Name"
+    type: cloudcredential
+    group: "General"

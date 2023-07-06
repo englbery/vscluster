@@ -1,0 +1,4 @@
+cluster:
+  name: vs-cluster
+
+cloudCredentialSecretName: ""
