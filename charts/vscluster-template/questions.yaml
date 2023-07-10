@@ -1,6 +1,6 @@
 questions:
   - variable: cluster.name
-    description: "Specify name"
+    description: "Specify cluster name"
     label: "Cluster Name"
     required: true
     type: string
