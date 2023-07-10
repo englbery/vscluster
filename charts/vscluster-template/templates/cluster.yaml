@@ -4,9 +4,7 @@ metadata:
   name: {{ .Values.cluster.name }}
   namespace: fleet-default
 spec:
-  {{- if .Values.cloudCredentialSecretName }}
-  cloudCredentialSecretName: {{ .Values.cloudCredentialSecretName }}
-  {{- end }}
+  cloudCredentialSecretName: cattle-global-data:cc-6nqgh
   kubernetesVersion: v1.25.11+rke2r1
   rkeConfig:
     machinePools:
