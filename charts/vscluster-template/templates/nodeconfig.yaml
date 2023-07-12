@@ -20,9 +20,9 @@ cloudConfig: |
           IPAddressIf2=$(sed -n 's/.*Property oe:key="guestinfo.interface.1.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
           GatewayIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
           DNSS=$(sed -n 's/.*Property oe:key="guestinfo.dns.servers" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          ips=("${IPAddressIf1}" "${IPAddressIf2}")
-          gateways=("${GatewayIf1}" "")
-          dns=("${DNSS}" "")
+          ips=(${IPAddressIf1} ${IPAddressIf2})
+          gateways=(${GatewayIf1} "")
+          dns=(${DNSS} "")
 
           readarray -t devices < <(nmcli -g GENERAL.CONNECTION device show | grep -v "^$")
           uuids=()
