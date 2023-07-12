@@ -17,23 +17,50 @@ cloudConfig: |
           vmtoolsd --cmd 'info-get guestinfo.ovfEnv' > /tmp/ovfenv
           # Interface 1
           IPAddressIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          GatewayIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          DNS=$(sed -n 's/.*Property oe:key="guestinfo.dns.servers" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          sudo nmcli connection modify ${uuidens192} ipv4.address ${IPAddressIf1}/${SnIf1}
-          sudo nmcli connection modify ${uuidens192} ipv4.gateway ${GatewayIf1}
-          sudo nmcli connection modify ${uuidens192} ipv4.dns "${DNS}"
-          sudo nmcli connection modify ${uuidens192} ipv4.method manual
-          sudo nmcli connection modify ${uuidens192} ipv6.method "disabled"
-          sudo nmcli connection up ${uuidens192}
-          # Interface 2
           IPAddressIf2=$(sed -n 's/.*Property oe:key="guestinfo.interface.1.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          sudo nmcli connection modify ${uuidens224} ipv4.address ${IPAddressIf2}/${SnIf2}
-          sudo nmcli connection modify ${uuidens224} ipv4.method manual
-          sudo nmcli connection modify ${uuidens224} ipv6.method "disabled"
-          sudo nmcli connection up ${uuidens224}
+          GatewayIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+          DNSS=$(sed -n 's/.*Property oe:key="guestinfo.dns.servers" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+          ips=(${IPAddressIf1} ${IPAddressIf2})
+          gateways=(${GatewayIf1} "")
+          dns=(${DNSS} "")
+
+          readarray -t devices < <(nmcli -g GENERAL.CONNECTION device show | grep -v "^$")
+          uuids=()
+
+          if [ ${#ips[*]} -ne ${#gateways[*]} ] || [ ${#ips[*]} -ne ${#dns[*]} ]
+          then
+            echo "amount of values for ips gateways and dns not equal"
+            exit 1
+          fi
+          if [ ${#ips[*]} -ne ${#devices[*]} ]
+          then
+            echo "amount of devices does not match with given amount of configurations!"
+            echo "Devices: ${#devices[*]}"
+            echo "Configurations: ${#ips[*]}"
+            exit 1
+          fi
+          for index in "${!devices[@]}";
+          do
+            uuids[$index]=$(nmcli -g connection.uuid connection show $devices)
+            echo "$index -> ${devices[$index]} -> ${uuids[$index]}"
+            if [ ! -z ${ips[$index]} ]
+            then
+              sudo nmcli connection modify ${uuids[$index]} ipv4.address ${ips[$index]}/24
+            fi
+            if [ ! -z ${gateways[$index]} ]
+            then
+              sudo nmcli connection modify ${uuids[$index]} ipv4.gateway ${gateways[$index]}
+            fi
+            if [ ! -z "${dns[$index]}" ]
+            then
+              sudo nmcli connection modify ${uuids[$index]} ipv4.dns "${dns[$index]}"
+            fi
+              sudo nmcli connection modify ${uuids[$index]} ipv4.method manual
+              sudo nmcli connection modify ${uuids[$index]} ipv6.method disabled
+              sudo nmcli connection up ${uuids[$index]}
+          done
           sudo systemctl restart NetworkManager
-          # Hostname
-          sudo hostnamectl set-hostname VALE-NO-${IPAddressIf1##*.}
+          sudo hostnamectl set-hostname VALE-NO-${ips[0]##*.}
     runcmd:
       - bash /root/configure-networking.sh
 cpuCount: "0"
