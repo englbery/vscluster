@@ -3,37 +3,59 @@ kind: VmwarevsphereConfig
 metadata:
   name: {{ .Values.cluster.name }}-nodes
   namespace: fleet-default
-cloneFrom: /Datacenter/vm/rocky8-template
+cloneFrom: /Datacenter/vm/ubuntu-jammy-22.04-cloudimg
 cloudConfig: |
     #cloud-config
+
+    users:
+      - default
+      - name: ops
+        passwd: "$6$0JSlsuJyJHc/Ofpz$FobP2erNS1Gfpo42cdCXpHJewldt82KyXVg/jnMUw8yquk1eWe4fVaEhhEezcbNychTPzwj.k.AK1IO7sz2bv/"
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        groups: users, sudo
+        shell: /bin/bash
+        ssh-authorized-keys:
+          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICua5PABqRnTCib17zeyd0Mgusav4mY2KGOmvMzOdfWA Wolfgang Hofbauer <wolfgang.hofbauer@cancom.de>, 2022-06-03
+
+    keyboard:
+      layout: de
+      
+    locale: de_DE
+
     write_files:
       - path: /root/configure-networking.sh
         content: |
           #!/bin/bash
-          SnIf1=24
-          SnIf2=24
-          uuidens192=$(nmcli connection show|grep "ens33"|awk '{print $(NF-2)}')
-          uuidens224=$(nmcli connection show|grep "ens34"|awk '{print $(NF-2)}')
+
           vmtoolsd --cmd 'info-get guestinfo.ovfEnv' > /tmp/ovfenv
+
           # Interface 1
-          IPAddressIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          GatewayIf1=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+          IPAddress=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+          Gateway=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
           DNS=$(sed -n 's/.*Property oe:key="guestinfo.dns.servers" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          sudo nmcli connection modify ${uuidens192} ipv4.address ${IPAddressIf1}/${SnIf1}
-          sudo nmcli connection modify ${uuidens192} ipv4.gateway ${GatewayIf1}
-          sudo nmcli connection modify ${uuidens192} ipv4.dns "${DNS}"
-          sudo nmcli connection modify ${uuidens192} ipv4.method manual
-          sudo nmcli connection modify ${uuidens192} ipv6.method "disabled"
-          sudo nmcli connection up ${uuidens192}
-          # Interface 2
-          IPAddressIf2=$(sed -n 's/.*Property oe:key="guestinfo.interface.1.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
-          sudo nmcli connection modify ${uuidens224} ipv4.address ${IPAddressIf2}/${SnIf2}
-          sudo nmcli connection modify ${uuidens224} ipv4.method manual
-          sudo nmcli connection modify ${uuidens224} ipv6.method "disabled"
-          sudo nmcli connection up ${uuidens224}
-          sudo systemctl restart NetworkManager
+
+          cat > /etc/netplan/01-netcfg.yaml <<EOF
+          network:
+            version: 2
+            renderer: networkd
+            ethernets:
+              ens192:
+                dhcp4: no
+                addresses:
+                  - ${IPAddress}/24
+                routes:
+                  - to: default
+                    via: $Gateway
+                nameservers:
+                  addresses: [$DNS]
+          EOF
+          
           # Hostname
-          sudo hostnamectl set-hostname VALE-NO-${IPAddressIf1##*.}
+          sudo hostnamectl set-hostname NODE-${IPAddress##*.}
+
+          sudo netplan apply
+
     runcmd:
       - bash /root/configure-networking.sh
 cpuCount: "0"
