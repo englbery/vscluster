@@ -14,3 +14,11 @@ questions:
     required: true
     label: "Node count"
     group: "Nodepools"
+  - variable: nodes.datastore
+    label: "Vsphere Datastore"
+    default: ""
+    type: string
+    description: "vSphere datastore for virtual machine"
+    required: true
+    group: "Nodes"
+    
