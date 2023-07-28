@@ -39,7 +39,7 @@ cloudConfig: |
 cpuCount: "0"
 creationType: template
 datacenter: /Datacenter
-datastore: /Datacenter/datastore/Profile_004_NFS_DS
+datastore: {{ .Values.nodes.datastore }}
 diskSize: "0"
 folder: /Datacenter/vm/Rancher-Deployment
 memorySize: "0"
