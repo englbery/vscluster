@@ -3,5 +3,6 @@ cluster:
 nodepool:
   count: 1
 nodes:
-  datastore: ""
-  
+  quantity: 3
+  cpuCount: 4
+  memorySize: 8192
