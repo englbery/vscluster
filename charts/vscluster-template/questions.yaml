@@ -34,7 +34,7 @@ questions:
     description: "Specify cpu count of nodes"
     label: "CPU"
     required: true
-    type: int
+    type: string
     options:
       - 1
       - 4
@@ -45,7 +45,7 @@ questions:
     description: "Specify ram size of nodes"
     label: "RAM"
     required: true
-    type: int
+    type: string
     options:
       - 4096
       - 8192
