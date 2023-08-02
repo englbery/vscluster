@@ -8,3 +8,4 @@ nodes:
   memorySize: 8192
   folder: /Datacenter/vm/Rancher-Deployment
   pool: /Datacenter/host/Test-Cluster/Resources/Rancher-Deployment
+  datastore: /Datacenter/datastore/Profile_004_NFS_DS
