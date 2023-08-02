@@ -1,14 +1,7 @@
 cluster:
   name: vs-cluster
-
-kubernetesVersion: ""
-
-cloudCredentialSecretName: ""
-
+nodepool:
+  count: 1
 nodes:
-  quantity: 3
-  cpuCount: 4
   datastore: ""
-  folder: ""
-  memorySize: 8192
-  pool: ""
+  
