@@ -36,13 +36,13 @@ cloudConfig: |
           sudo hostnamectl set-hostname VALE-NO-${IPAddressIf1##*.}
     runcmd:
       - bash /root/configure-networking.sh
-cpuCount: {{ .Values.nodes.cpuCount }}
+cpuCount: {{ .Values.nodes.cpuCount | quote }}
 creationType: template
 datacenter: /Datacenter
 datastore: {{ .Values.nodes.datastore }}
 diskSize: "0"
 folder: {{ .Values.nodes.folder }}
-memorySize: {{ .Values.nodes.memorySize }}
+memorySize: {{ .Values.nodes.memorySize | quote }}
 network:
   - /Datacenter/network/VL-115
   - /Datacenter/network/VL-899
