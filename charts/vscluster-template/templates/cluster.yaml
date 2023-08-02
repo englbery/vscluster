@@ -4,14 +4,14 @@ metadata:
   name: {{ .Values.cluster.name }}
   namespace: fleet-default
 spec:
-  cloudCredentialSecretName: {{ .Values.cloudCredentialSecretName }}
-  kubernetesVersion: {{ .Values.kubernetesVersion }}
+  cloudCredentialSecretName: cattle-global-data:cc-6nqgh
+  kubernetesVersion: v1.25.11+rke2r1
   rkeConfig:
     machinePools:
     - controlPlaneRole: true
       etcdRole: true
       workerRole: true
-      quantity: {{ .Values.nodes.quantity }}
+      quantity: {{ .Values.nodepool.count }}
       name: {{ .Values.cluster.name }}-nodes
       machineConfigRef:
         kind: VmwarevsphereConfig
@@ -20,3 +20,4 @@ spec:
       displayName: {{ .Values.cluster.name }}-nodes
       controlPlaneConfig:
         cni: calico
+        
