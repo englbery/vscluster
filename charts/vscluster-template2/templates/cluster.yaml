@@ -24,7 +24,7 @@ spec:
       etcdRole: false
       workerRole: true
       quantity: {{ .Values.wnodes.quantity }}
-      name: {{ .Values.cluster.name }}-nodes
+      name: {{ .Values.cluster.name }}-wnodes
       machineConfigRef:
         kind: VmwarevsphereConfig
         name: {{ .Values.cluster.name }}-wnodes
