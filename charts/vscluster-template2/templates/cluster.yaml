@@ -20,3 +20,15 @@ spec:
       displayName: {{ .Values.cluster.name }}-nodes
       controlPlaneConfig:
         cni: calico
+    - controlPlaneRole: false
+      etcdRole: false
+      workerRole: true
+      quantity: {{ .Values.wnodes.quantity }}
+      name: {{ .Values.cluster.name }}-nodes
+      machineConfigRef:
+        kind: VmwarevsphereConfig
+        name: {{ .Values.cluster.name }}-wnodes
+      paused: false
+      displayName: {{ .Values.cluster.name }}-nodes
+      controlPlaneConfig:
+        cni: calico 
