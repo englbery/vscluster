@@ -10,7 +10,7 @@ spec:
     machinePools:
     - controlPlaneRole: true
       etcdRole: true
-      workerRole: true
+      workerRole: false
       quantity: {{ .Values.nodes.quantity }}
       name: {{ .Values.cluster.name }}-nodes
       machineConfigRef:
