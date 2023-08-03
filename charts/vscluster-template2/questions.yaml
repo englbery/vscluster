@@ -1,0 +1,75 @@
+questions:
+  - variable: cluster.name
+    description: "Specify cluster name"
+    label: "Cluster Name"
+    required: true
+    type: string
+    group: "General"
+  - variable: kubernetesVersion
+    description: "Specify kubernetes version"
+    label: "Kubernetes version"
+    required: true
+    type: enum
+    options:
+      - v1.26.6+rke2r1
+      - v1.25.11+rke2r1
+      - v1.24.15+rke2r1
+    group: "General"
+  - variable: cloudCredentialSecretName
+    description: "CloudCredentialName for provisioning cluster"
+    label: "CloudCredential Name"
+    type: cloudcredential
+    group: "General"
+  - variable: nodes.quantity
+    description: "Specify amount of nodes"
+    label: "Node quantity"
+    required: true
+    type: enum
+    options:
+      - 1
+      - 3
+      - 5
+    group: "Controlplane Nodes"
+  - variable: nodes.cpuCount
+    description: "Specify cpu count of nodes"
+    label: "CPU"
+    required: true
+    type: enum
+    options:
+      - 4
+      - 6
+      - 8
+      - 16
+    group: "Controlplane Nodes"
+  - variable: nodes.memorySize
+    description: "Specify ram size of nodes"
+    label: "RAM"
+    required: true
+    type: enum
+    options:
+      - 4096
+      - 8192
+      - 12288
+      - 16384
+    group: "Controlplane Nodes"
+  - variable: nodes.datastore
+    label: "Vsphere Datastore"
+    default: ""
+    type: string
+    description: "vSphere datastore for virtual machine"
+    required: true
+    group: "Controlplane Nodes"
+  - variable: nodes.folder
+    label: "Vsphere folder"
+    default: ""
+    type: string
+    description: "vSphere folder for virtual machine"
+    required: true
+    group: "Controlplane Nodes"
+  - variable: nodes.pool
+    label: "Vsphere Ressourcepool"
+    default: ""
+    type: string
+    description: "vSphere ressourcepool for virtual machine"
+    required: true
+    group: "Controlplane Nodes"

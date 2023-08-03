@@ -1,0 +1,22 @@
+apiVersion: provisioning.cattle.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.cluster.name }}
+  namespace: fleet-default
+spec:
+  cloudCredentialSecretName: {{ .Values.cloudCredentialSecretName }}
+  kubernetesVersion: {{ .Values.kubernetesVersion }}
+  rkeConfig:
+    machinePools:
+    - controlPlaneRole: true
+      etcdRole: true
+      workerRole: true
+      quantity: {{ .Values.nodes.quantity }}
+      name: {{ .Values.cluster.name }}-nodes
+      machineConfigRef:
+        kind: VmwarevsphereConfig
+        name: {{ .Values.cluster.name }}-nodes
+      paused: false
+      displayName: {{ .Values.cluster.name }}-nodes
+      controlPlaneConfig:
+        cni: calico
