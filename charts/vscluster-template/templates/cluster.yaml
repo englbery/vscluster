@@ -11,6 +11,9 @@ spec:
       configs:
         "yiannis.de":
           authConfigSecretName: registryconfig-auth-zgbxl
+    machineSelectorConfig:
+    - config:
+      system-default-registry: yiannis.de
     machinePools:
     - controlPlaneRole: true
       etcdRole: true
