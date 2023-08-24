@@ -7,6 +7,10 @@ spec:
   cloudCredentialSecretName: {{ .Values.cloudCredentialSecretName }}
   kubernetesVersion: {{ .Values.kubernetesVersion }}
   rkeConfig:
+    registries:
+      configs:
+        "yiannis.de":
+          authConfigSecretName: registryconfig-auth-zgbxl
     machinePools:
     - controlPlaneRole: true
       etcdRole: true
