@@ -20,3 +20,14 @@ spec:
       displayName: {{ .Values.cluster.name }}-nodes
       controlPlaneConfig:
         cni: calico
+    machineSelectorConfig:
+      - config:
+          system-default-registry: http://172.16.115.100/
+    registries:
+      configs:
+        http://172.16.115.100/:
+          authConfigSecretName: registryconfig-auth-pg4rx
+          caBundle: ''
+          insecureSkipVerify: false
+          tlsSecretName: null
+      mirrors: {}
