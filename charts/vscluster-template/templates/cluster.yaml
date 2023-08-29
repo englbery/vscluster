@@ -22,10 +22,10 @@ spec:
         cni: calico
     machineSelectorConfig:
       - config:
-          system-default-registry: http://172.16.115.100/
+          system-default-registry: '172.16.115.100:80'
     registries:
       configs:
-        http://172.16.115.100/:
+        '172.16.115.100:80':
           authConfigSecretName: registryconfig-auth-pg4rx
           caBundle: ''
           insecureSkipVerify: true
