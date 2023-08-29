@@ -28,6 +28,6 @@ spec:
         '172.16.115.100:80':
           authConfigSecretName: registryconfig-auth-pg4rx
           caBundle: ''
-          insecureSkipVerify: true
+          insecureSkipVerify: false
           tlsSecretName: null
       mirrors: {}
