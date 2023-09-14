@@ -39,7 +39,7 @@ cloudConfig: |
 cpuCount: {{ .Values.nodes.cpuCount | quote }}
 creationType: template
 datacenter: /Datacenter
-datastore: {{ .Values.nodes.datastore }}
+datastore: {{ .Values.nodes.datastore | quote }}
 diskSize: "0"
 folder: {{ .Values.nodes.folder }}
 memorySize: {{ .Values.nodes.memorySize | quote }}
