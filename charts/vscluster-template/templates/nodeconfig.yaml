@@ -33,7 +33,7 @@ cloudConfig: |
           sudo nmcli connection up ${uuidens224}
           sudo systemctl restart NetworkManager
           # Hostname
-          sudo hostnamectl set-hostname VALE-NO-${IPAddressIf1##*.}
+          sudo hostnamectl set-hostname {{ .Values.cluster.name }}-${IPAddressIf1##*.}
     runcmd:
       - bash /root/configure-networking.sh
 cpuCount: {{ .Values.nodes.cpuCount | quote }}
