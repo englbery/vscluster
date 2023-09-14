@@ -56,7 +56,10 @@ questions:
   - variable: nodes.datastore
     label: "Vsphere Datastore"
     default: ""
-    type: string
+    type: enum
+    options:
+      - /Datacenter/datastore/Profile_004_NFS_DS
+      - /Datacenter/datastore/Profile_005_NFS_DS
     description: "vSphere datastore for virtual machine"
     required: true
     group: "Controlplane Nodes"
