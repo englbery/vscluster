@@ -44,7 +44,7 @@ diskSize: "0"
 folder: {{ .Values.nodes.folder }}
 memorySize: {{ .Values.nodes.memorySize | quote }}
 network:
-  - /Datacenter/network/VL-115
+  - /Datacenter/network/{{ .Values.nodes.vlan }}
   - /Datacenter/network/VL-899
 pool: {{ .Values.nodes.pool }}
 sshPort: "22"
@@ -52,9 +52,9 @@ sshUserGroup: staff
 vappIpallocationpolicy: fixedAllocated
 vappIpprotocol: IPv4
 vappProperty:
-  - guestinfo.interface.0.ip.0.address=ip:VL-115
-  - guestinfo.interface.0.route.0.gateway=${gateway:VL-115}
-  - guestinfo.dns.servers=${dns:VL-115}
+  - guestinfo.interface.0.ip.0.address=ip:{{ .Values.nodes.vlan }}
+  - guestinfo.interface.0.route.0.gateway=${gateway:{{ .Values.nodes.vlan }}}
+  - guestinfo.dns.servers=${dns:{{ .Values.nodes.vlan }}}
   - guestinfo.interface.1.ip.0.address=ip:VL-899
 vappTransport: com.vmware.guestInfo
 vcenterPort: "443"
