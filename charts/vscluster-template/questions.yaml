@@ -77,3 +77,10 @@ questions:
     description: "vSphere ressourcepool for virtual machine"
     required: true
     group: "Controlplane Nodes"
+  - variable: nodes.vlan
+    label: "vlan"
+    default: ""
+    type: string
+    description: "vlan"
+    required: true
+    group: "Controlplane Nodes"
