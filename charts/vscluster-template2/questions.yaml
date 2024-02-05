@@ -14,16 +14,19 @@ questions:
     label: "Test"
     type: string
     show_if: location=Test
+    group: "General"
   - variable: generic
     description: "Gen"
     label: "Gen"
     type: string
     show_if: location=Generic
+    group: "General"
   - variable: dmz
     description: "dmz"
     label: "dmz"
     type: string
     show_if: location=DMZ
+    group: "General"
   - variable: cluster.name
     description: "Specify cluster name"
     label: "Cluster Name"
