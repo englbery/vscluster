@@ -1,4 +1,29 @@
 questions:
+  - variable: location
+    description: "Where to deploy cluster"
+    label: "Location"
+    required: true
+    type: enum
+    options:
+      - Test
+      - Generic
+      - DMZ
+    group: "General"
+  - variable: test
+    description: "Test"
+    label: "Test"
+    type: string
+    show_if: location=Test
+  - variable: generic
+    description: "Gen"
+    label: "Gen"
+    type: string
+    show_if: location=Generic
+  - variable: dmz
+    description: "dmz"
+    label: "dmz"
+    type: string
+    show_if: location=DMZ
   - variable: cluster.name
     description: "Specify cluster name"
     label: "Cluster Name"
