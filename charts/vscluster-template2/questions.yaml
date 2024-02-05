@@ -48,7 +48,14 @@ questions:
     label: "CloudCredential Name"
     type: cloudcredential
     group: "General"
+  - variable: custom_nodes
+    label: "Customize"
+    required: true
+    type: boolean
+    default: false
+    group: "Controlplane Nodes"
   - variable: nodes.quantity
+    show_if: custom_nodes=false
     description: "Specify amount of nodes"
     label: "Node quantity"
     required: true
@@ -59,6 +66,7 @@ questions:
       - 5
     group: "Controlplane Nodes"
   - variable: nodes.cpuCount
+    show_if: custom_nodes=false
     description: "Specify cpu count of nodes"
     label: "CPU"
     required: true
@@ -71,6 +79,7 @@ questions:
       - 16
     group: "Controlplane Nodes"
   - variable: nodes.memorySize
+    show_if: custom_nodes=false
     description: "Specify ram size of nodes"
     label: "RAM"
     required: true
@@ -82,6 +91,7 @@ questions:
       - 16384
     group: "Controlplane Nodes"
   - variable: nodes.datastore
+    show_if: custom_nodes=false
     label: "Vsphere Datastore"
     default: ""
     type: string
@@ -89,6 +99,7 @@ questions:
     required: true
     group: "Controlplane Nodes"
   - variable: nodes.folder
+    show_if: custom_nodes=false
     label: "Vsphere folder"
     default: ""
     type: string
@@ -96,6 +107,53 @@ questions:
     required: true
     group: "Controlplane Nodes"
   - variable: nodes.pool
+    show_if: custom_nodes=false
+    label: "Vsphere Ressourcepool"
+    default: ""
+    type: string
+    description: "vSphere ressourcepool for virtual machine"
+    required: true
+    group: "Controlplane Nodes"
+  #custom
+  - variable: nodes.quantity
+    show_if: custom_nodes=true
+    description: "Specify amount of nodes"
+    label: "Node quantity"
+    required: true
+    type: string
+    group: "Controlplane Nodes"
+  - variable: nodes.cpuCount
+    show_if: custom_nodes=true
+    description: "Specify cpu count of nodes"
+    label: "CPU"
+    required: true
+    type: string
+    group: "Controlplane Nodes"
+  - variable: nodes.memorySize
+    show_if: custom_nodes=true
+    description: "Specify ram size of nodes"
+    label: "RAM"
+    required: true
+    type: string
+    group: "Controlplane Nodes"
+  - variable: nodes.datastore
+    show_if: custom_nodes=true
+    label: "Vsphere Datastore"
+    default: ""
+    type: string
+    description: "vSphere datastore for virtual machine"
+    required: true
+    group: "Controlplane Nodes"
+  - variable: nodes.folder
+    show_if: custom_nodes=true
+    label: "Vsphere folder"
+    default: ""
+    type: string
+    description: "vSphere folder for virtual machine"
+    required: true
+    group: "Controlplane Nodes"
+  - variable: nodes.pool
+    show_if: custom_nodes=true
     label: "Vsphere Ressourcepool"
     default: ""
     type: string
